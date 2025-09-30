@@ -9,7 +9,7 @@ It includes a **colorized interactive menu** for ease of use.
 
 * ✅ Reset ɅnyDesk without touching your `user.conf`
 * ✅ Clean reset (removes `user.conf` after auto-backup)
-* ✅ Backup `user.conf` with timestamp to `AppData\AnyDesk\Backups`
+* ✅ Backup `user.conf` with timestamp to `AppData\ɅnyDesk\Backups`
 * ✅ Restore from any saved backup (with full path shown)
 * ✅ Auto-elevation (asks for admin if not already elevated)
 * ✅ Restarts ɅnyDesk after reset/restore
@@ -42,7 +42,6 @@ powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 
 ### Option 2: One-liner (remote execute with `irm`)
 
-Host the script somewhere (e.g., GitHub raw, Gist, or your own server), then run:
 
 ```powershell
 irm "https://github.com/Kintoyyy/Adesk-Tool/reset-adesk.ps1" | iex
