@@ -11,8 +11,8 @@ It includes a **colorized interactive menu** for ease of use.
 * ✅ Clean reset (removes `user.conf` after auto-backup)
 * ✅ Backup `user.conf` with timestamp to `AppData\ɅnyDesk\Backups`
 * ✅ Restore from any saved backup (with full path shown)
-* ✅ Auto-elevation (asks for admin if not already elevated)
-* ✅ Restarts ɅnyDesk after reset/restore
+* ⚠️ **Resetting will regenerate a new AnyDesk ID**
+* ⚠️ **Saved devices will need to re-enter the password after reset**
 
 ---
 
@@ -49,6 +49,8 @@ powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 irm "https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk.ps1" | iex
 ```
 
+---
+
 ## 📜 Menu Options
 
 When you run the tool, you’ll see:
@@ -80,3 +82,5 @@ When you run the tool, you’ll see:
 * Always trust the script source before using the one-liner.
 * Run inside **elevated PowerShell** (admin). The script auto-prompts if not elevated.
 * Works on Windows with ɅnyDesk installed in the default path.
+* Resetting **removes AnyDesk’s identity cache** and **regenerates a new AnyDesk ID**.
+* After reset, **previously saved devices will need to input the password again** before reconnecting.

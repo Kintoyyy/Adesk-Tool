@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  AnyDesk Reset/Backup Tool with colored menu
+  AnyDesk Reset/Backup Tool with colored menu + warnings
 
 .OPTIONS
   1 - Reset AnyDesk (keep user.conf)
@@ -8,6 +8,10 @@
   3 - Backup user.conf
   4 - Restore user.conf from backup (auto restart AnyDesk)
   5 - Exit
+
+.NOTES
+  ⚠️ Resetting will regenerate a new AnyDesk ID.
+  ⚠️ Previously saved devices will need to input the password again.
 #>
 
 function Ensure-Elevated {
@@ -113,7 +117,6 @@ function Restore-UserConf {
     }
 }
 
-
 function Start-AnyDesk {
     if (Test-Path $anyDeskExePath) {
         Start-Process $anyDeskExePath
@@ -150,17 +153,33 @@ do {
 
     switch ($choice) {
         '1' {
-            Stop-AnyDesk
-            Delete-ProgramDataFiles
-            Start-AnyDesk
+            Write-Host "`n[!] WARNING:`n - This will regenerate a NEW AnyDesk ID." -ForegroundColor Red
+            Write-Host " - Saved devices will need to input the password again." -ForegroundColor Red
+            Write-Host " - You need to set the Unattended Access password again.`n" -ForegroundColor Red
+            $confirm = Read-Host "Proceed with Reset? (Y/n)"
+            if ($confirm -match '^[Yy]$') {
+                Stop-AnyDesk
+                Delete-ProgramDataFiles
+                Start-AnyDesk
+            } else {
+                Write-Host "    -> Reset cancelled." -ForegroundColor Yellow
+            }
             Pause
         }
         '2' {
-            Backup-UserConf
-            Stop-AnyDesk
-            Delete-ProgramDataFiles
-            Delete-UserConf
-            Start-AnyDesk
+            Write-Host "`n[!] WARNING:`n - This will regenerate a NEW AnyDesk ID." -ForegroundColor Red
+            Write-Host " - Saved devices will need to input the password again." -ForegroundColor Red
+            Write-Host " - You need to set the Unattended Access password again.`n" -ForegroundColor Red
+            $confirm = Read-Host "Proceed with Clean Reset? (Y/n)"
+            if ($confirm -match '^[Yy]$') {
+                Backup-UserConf
+                Stop-AnyDesk
+                Delete-ProgramDataFiles
+                Delete-UserConf
+                Start-AnyDesk
+            } else {
+                Write-Host "    -> Clean Reset cancelled." -ForegroundColor Yellow
+            }
             Pause
         }
         '3' {
