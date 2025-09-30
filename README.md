@@ -42,11 +42,12 @@ powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 
 ### Option 2: One-liner (remote execute with `irm`)
 
+> ⚠️ **Important:** This tool is for **Windows only**.
+> Please **run PowerShell as Administrator** before pasting the command below, otherwise the reset/backup will fail.
 
 ```powershell
 irm "https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk.ps1" | iex
 ```
----
 
 ## 📜 Menu Options
 
