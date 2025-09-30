@@ -44,7 +44,7 @@ powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 
 
 ```powershell
-irm "https://github.com/Kintoyyy/Adesk-Tool/reset-adesk.ps1" | iex
+irm "https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk.ps1" | iex
 ```
 ---
 
