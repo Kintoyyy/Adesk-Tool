@@ -1,4 +1,4 @@
-# 🛠 Ʌnyesk Reset/Backup Tool
+# 🛠 ɅnyDesk Reset/Backup Tool
 
 This tool lets you safely **reset ɅnyDesk**, manage **backups of `user.conf`**, and restore them when needed.
 It includes a **colorized interactive menu** for ease of use.
