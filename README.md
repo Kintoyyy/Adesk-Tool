@@ -1,47 +1,54 @@
-# 🛠 ɅnyDesk Reset/Backup Tool
+# 🛠 ɅnyDesk Reset / Backup Tool
 
-This tool lets you safely **reset ɅnyDesk**, manage **backups of `user.conf`**, and restore them when needed.
-It includes a **colorized interactive menu** for ease of use.
+A safe utility to **reset ɅnyDesk**, manage **backups of `user.conf`**, and **restore** them when needed.
+Includes an **interactive menu** (colorized in PowerShell, plain in BAT).
 
 ---
 
 ## 📌 Features
 
-* ✅ Reset ɅnyDesk without touching your `user.conf`
-* ✅ Clean reset (removes `user.conf` after auto-backup)
-* ✅ Backup `user.conf` with timestamp to `AppData\ɅnyDesk\Backups`
-* ✅ Restore from any saved backup (with full path shown)
-* ⚠️ **Resetting will regenerate a new AnyDesk ID**
-* ⚠️ **Saved devices will need to re-enter the password after reset**
+* ✅ Reset ɅnyDesk **without touching your `user.conf`**
+* ✅ Clean reset (**auto-backup**, then remove `user.conf`)
+* ✅ Backup `user.conf` with timestamp → `%AppData%\AnyDesk\Backups`
+* ✅ Restore from **any saved backup** (choose which file to restore)
+* ⚠️ Resetting will **regenerate a new AnyDesk ID**
+* ⚠️ Saved devices will need to **re-enter the password after reset**
 
 ---
 
 ## 📂 Backup Location
 
-Backups are stored here:
+All backups are stored in:
 
 ```
 %APPDATA%\AnyDesk\Backups
 ```
 
-Each backup is named:
+Backups are timestamped:
 
 ```
 user.conf.YYYYMMDD-HHMMSS.bak
+```
+
+Example:
+
+```
+user.conf.20251001-143025.bak
 ```
 
 ---
 
 ## 🚀 How to Run
 
-### Option 1: Clone or Download
+### 🔹 PowerShell (recommended)
+
+Download & run locally:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 ```
 
-### Option 2: One-liner (remote execute with `irm`)
-
+Or run directly via one-liner:
 > ⚠️ **Important:** This tool is for **Windows only**.
 > Please **run PowerShell as Administrator** before pasting the command below, otherwise the reset/backup will fail.
 
@@ -51,9 +58,19 @@ irm "https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk.ps1"
 
 ---
 
+### 🔹 Batch Version (no colors)
+
+If you prefer a **plain `.bat` tool** (simpler, no colors), run:
+
+```bat
+reset-adesk.bat
+```
+
+---
+
 ## 📜 Menu Options
 
-When you run the tool, you’ll see:
+When executed, you’ll see:
 
 ```
 ==================================================
@@ -63,13 +80,12 @@ When you run the tool, you’ll see:
    / _ \ / _  |/ _ \/ __| |/ /   | |/ _ \ / _ \| |
   / ___ \ (_| |  __/\__ \   <    | | (_) | (_) | |
  /_/   \_\__,_|\___||___/_|\_\   |_|\___/ \___/|_|
-                                                  
-          ɅnyDesk Reset/Backup Tool               
-                                                  
+
+          ɅnyDesk Reset / Backup Tool                
 ==================================================
 
  [1] Reset ɅnyDesk (keep user.conf)
- [2] Clean Reset ɅnyDesk (remove user.conf)
+ [2] Clean Reset ɅnyDesk (backup + remove user.conf)
  [3] Backup user.conf
  [4] Restore user.conf from backup
  [5] Exit
@@ -79,8 +95,7 @@ When you run the tool, you’ll see:
 
 ## ⚠️ Notes
 
-* Always trust the script source before using the one-liner.
-* Run inside **elevated PowerShell** (admin). The script auto-prompts if not elevated.
-* Works on Windows with ɅnyDesk installed in the default path.
-* Resetting **removes AnyDesk’s identity cache** and **regenerates a new AnyDesk ID**.
-* After reset, **previously saved devices will need to input the password again** before reconnecting.
+* Works only on **Windows** with AnyDesk installed in the default path.
+* Always **run as Administrator** (script checks and auto-prompts if not elevated).
+* A reset will **regenerate a new AnyDesk ID**.
+* After reset, **Unattended Access password must be re-set**, and **all devices must re-authenticate**.
