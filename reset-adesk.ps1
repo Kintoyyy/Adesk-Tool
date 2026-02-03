@@ -31,7 +31,8 @@ Ensure-Elevated
 $progDataAnyDesk = Join-Path $env:ProgramData "AnyDesk"
 $appDataAnyDesk  = Join-Path $env:APPDATA "AnyDesk"
 $userConf        = Join-Path $appDataAnyDesk "user.conf"
-$backupDir       = Join-Path $appDataAnyDesk "Backups"
+$thumbnailsDir   = Join-Path $appDataAnyDesk "thumbnails"
+$backupDir       = Join-Path $env:USERPROFILE "Documents\Adesk"
 $anyDeskExePath  = "C:\Program Files (x86)\AnyDesk\AnyDesk.exe"
 
 function Stop-AnyDesk {
@@ -75,6 +76,15 @@ function Backup-UserConf {
             $backupFile = Join-Path $backupDir "user.conf.$timestamp.bak"
             Copy-Item $userConf $backupFile -Force
             Write-Host "    -> Backed up user.conf to $backupFile" -ForegroundColor Green
+            
+            # Backup thumbnails folder
+            if (Test-Path $thumbnailsDir) {
+                $thumbnailsBackup = Join-Path $backupDir "thumbnails.$timestamp.bak"
+                Copy-Item $thumbnailsDir $thumbnailsBackup -Recurse -Force
+                Write-Host "    -> Backed up thumbnails to $thumbnailsBackup" -ForegroundColor Green
+            } else {
+                Write-Host "    -> Thumbnails folder not found (skipping)" -ForegroundColor DarkGray
+            }
         } catch {
             Write-Warning "Backup failed: $_"
         }
@@ -105,9 +115,18 @@ function Restore-UserConf {
     $choice = Read-Host "`nEnter number of backup to restore (or 0 to cancel)"
     if ($choice -match '^\d+$' -and $choice -gt 0 -and $choice -le $backups.Count) {
         $selected = $backups[$choice-1].FullName
+        $timestamp = $backups[$choice-1].Name -replace 'user\.conf\.(.+?)\.bak', '$1'
         try {
             Copy-Item $selected $userConf -Force
-            Write-Host "    -> Restored user.conf from $($backups[$choice-1].FullName)" -ForegroundColor Green
+            Write-Host "    -> Restored user.conf from $($backups[$choice-1].Name)" -ForegroundColor Green
+            
+            # Restore thumbnails if available
+            $thumbnailsBackupPath = Join-Path $backupDir "thumbnails.$timestamp.bak"
+            if (Test-Path $thumbnailsBackupPath) {
+                Remove-Item $thumbnailsDir -Recurse -Force -ErrorAction SilentlyContinue
+                Copy-Item $thumbnailsBackupPath $thumbnailsDir -Recurse -Force
+                Write-Host "    -> Restored thumbnails from backup" -ForegroundColor Green
+            }
             Start-AnyDesk
         } catch {
             Write-Warning "Failed to restore backup: $_"

@@ -32,19 +32,25 @@ iwr -useb https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk
 All backups are stored in:
 
 ```
-%APPDATA%\AnyDesk\Backups
+%USERPROFILE%\Documents\Adesk
 ```
 
-Backups are timestamped:
+Backups include:
+- **user.conf** - Your AnyDesk configuration file
+- **thumbnails** - Remote desktop thumbnails
+
+Files are timestamped:
 
 ```
 user.conf.YYYYMMDD-HHMMSS.bak
+thumbnails.YYYYMMDD-HHMMSS.bak
 ```
 
 Example:
 
 ```
 user.conf.20251001-143025.bak
+thumbnails.20251001-143025.bak
 ```
 
 ---

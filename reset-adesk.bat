@@ -12,7 +12,8 @@ if %errorlevel% neq 0 (
 set "APPDATA_AD=%APPDATA%\AnyDesk"
 set "PROGDATA_AD=%ProgramData%\AnyDesk"
 set "USERCONF=%APPDATA_AD%\user.conf"
-set "BACKUPDIR=%APPDATA_AD%\Backups"
+set "THUMBNAILS=%APPDATA_AD%\thumbnails"
+set "BACKUPDIR=%USERPROFILE%\Documents\Adesk"
 set "ANYDESK_EXE=%ProgramFiles(x86)%\AnyDesk\AnyDesk.exe"
 
 :menu
@@ -58,14 +59,19 @@ goto :eof
 :backup
 echo.
 if exist "%AppData%\AnyDesk\user.conf" (
-    if not exist "%AppData%\AnyDesk\Backups" mkdir "%AppData%\AnyDesk\Backups"
+    if not exist "%BACKUPDIR%" mkdir "%BACKUPDIR%"
     
     rem Format datetime as YYYYMMDD-HHMMSS
     set "dt=%date:~-4%%date:~4,2%%date:~7,2%-%time:~0,2%%time:~3,2%%time:~6,2%"
     set "dt=%dt: =0%"  rem remove spaces (from hour if <10)
     
-    copy "%AppData%\AnyDesk\user.conf" "%AppData%\AnyDesk\Backups\user.conf.%dt%.bak" >nul
+    copy "%AppData%\AnyDesk\user.conf" "%BACKUPDIR%\user.conf.%dt%.bak" >nul
     echo user.conf backed up as user.conf.%dt%.bak
+    
+    if exist "%THUMBNAILS%" (
+        xcopy "%THUMBNAILS%" "%BACKUPDIR%\thumbnails.%dt%.bak\" /E /I /Q >nul 2>&1
+        echo thumbnails backed up as thumbnails.%dt%.bak
+    )
 ) else (
     echo user.conf not found.
 )
@@ -90,6 +96,17 @@ if "%restorefile%"=="" goto menu
 if exist "%BACKUPDIR%\%restorefile%" (
     copy /y "%BACKUPDIR%\%restorefile%" "%USERCONF%" >nul
     echo Restored %restorefile% to user.conf
+    
+    rem Extract timestamp from filename (user.conf.YYYYMMDD-HHMMSS.bak)
+    for /f "tokens=2 delims=." %%a in ("%restorefile%") do set "timestamp=%%a"
+    
+    rem Restore thumbnails if available
+    if exist "%BACKUPDIR%\thumbnails.%timestamp%.bak" (
+        if exist "%THUMBNAILS%" rmdir /s /q "%THUMBNAILS%" >nul 2>&1
+        xcopy "%BACKUPDIR%\thumbnails.%timestamp%.bak" "%THUMBNAILS%" /E /I /Q >nul 2>&1
+        echo Restored thumbnails from backup
+    )
+    
     call :stop_anydesk
     call :start_anydesk
 ) else (
