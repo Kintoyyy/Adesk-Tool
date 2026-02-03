@@ -5,6 +5,17 @@ Includes an **interactive menu** (colorized in PowerShell, plain in BAT).
 
 ---
 
+## ⚡ Quick Start
+
+**One-liner to download and run:**
+```powershell
+iwr -useb https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk-oneliner.ps1 | iex
+```
+
+> ⚠️ **Important:** Run PowerShell as Administrator first, otherwise the reset/backup will fail.
+
+---
+
 ## 📌 Features
 
 * ✅ Reset ɅnyDesk **without touching your `user.conf`**
@@ -42,18 +53,14 @@ user.conf.20251001-143025.bak
 
 ### 🔹 PowerShell (recommended)
 
-Download & run locally:
-
+**Option 1: Run directly from web (fastest)**
 ```powershell
-powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
+iwr -useb https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk-oneliner.ps1 | iex
 ```
 
-Or run directly via one-liner:
-> ⚠️ **Important:** This tool is for **Windows only**.
-> Please **run PowerShell as Administrator** before pasting the command below, otherwise the reset/backup will fail.
-
+**Option 2: Download & run locally**
 ```powershell
-irm "https://raw.githubusercontent.com/Kintoyyy/Adesk-Tool/main/reset-adesk.ps1" | iex
+powershell -ExecutionPolicy Bypass -File ".\reset-adesk.ps1"
 ```
 
 ---
