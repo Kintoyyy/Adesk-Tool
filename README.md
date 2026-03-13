@@ -57,6 +57,8 @@ thumbnails.20251001-143025.bak
 
 ## 🚀 How to Run
 
+![How to run](tut.gif)
+
 ### 🔹 PowerShell (recommended)
 
 **Option 1: Run directly from web (fastest)**
